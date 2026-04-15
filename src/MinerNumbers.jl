@@ -13,7 +13,11 @@ export  nMiners
 #     return Int(Nemo.numerator(x)) // Int(Nemo.denominator(x))
 # end
 
-const ROUND_DIGITS = 5
+const ROUND_DIGITS = Ref(5)
+
+function set_round!(n::Int)
+    ROUND_DIGITS[] = n
+end
 
 struct nMiners <: Number
     int::Int
@@ -21,7 +25,7 @@ struct nMiners <: Number
     function nMiners(x, y=zero(typeof(x)))
         _x = x + y
         n = floor(_x)
-        fr = rationalize(round(_x - n; digits=ROUND_DIGITS))
+        fr = rationalize(round(_x - n; digits=ROUND_DIGITS[]))
         # fr = _rationalize(_x - n)
         new(n, fr)
     end
